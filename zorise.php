@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       PV Zorise
  * Plugin URI:        https://www.primeview.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Plugin Developed for Zoho - Highrise.
  * Version:           1.0.0
  * Author:            Primeview
  * Author URI:        https://www.primeview.com
