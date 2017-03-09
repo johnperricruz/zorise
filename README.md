@@ -1,5 +1,5 @@
-<p align="center">
-<img src="http://technologyadvice.com/wp-content/uploads/2014/02/zohologo.jpg">
+<p align="left">
+<img src="http://technologyadvice.com/wp-content/uploads/2014/02/zohologo.jpg"><br/>
 <img src="https://d35fkdjhhgt99.cloudfront.net/static/use-media-items/7/6419/full-271x84/56701d71/Highrise-logo.png?resolution=0">
 </p>
 
