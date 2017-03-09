@@ -248,7 +248,7 @@ class Zorise {
 		); 			
 	}
 	public function zorise_leads_page(){
-		echo 'zorise_leads_page';
+		echo 'Coming Soon...';
 	}
 	public function zorise_settings_page(){
 		?>
