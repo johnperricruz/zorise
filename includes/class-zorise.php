@@ -217,6 +217,7 @@ class Zorise {
 	public function register_hooks() {
 		add_action('admin_menu',array(&$this, 'create_main_page'));
 		add_action('init',array(&$this, 'register_shortcodes'));
+		add_action( 'admin_init',array(&$this, 'zorise_save_settings_post')); 
 	}
 
 	public function create_main_page(){
@@ -250,8 +251,67 @@ class Zorise {
 		echo 'zorise_leads_page';
 	}
 	public function zorise_settings_page(){
-		echo 'zorise_settings_page';
+		?>
+			<h2>Primeview Zoho-Highrise Integration</h2>
+			<p>Shortcode : [zorise mode="zorise-frontend-form"]</p>
+			<p>For other forms, contact developer.</p>
+			<form method="post" action="options.php">
+				<?=settings_fields( 'zorise-option-group' );?>
+				<?=do_settings_sections( 'zorise-option-group' );?>
+				<?php
+					echo '<h3>Highrise</h3>';
+					echo '<table width="50%">
+							<tr>
+								<td>Highrise Email</td>
+								<td><input style="width:100%;" placeholder="Highrise Email..." type="text" name="highrise_email" value="'. esc_attr( get_option('highrise_email') ).'" /></td>
+							</tr>
+							<tr>
+								<td>Highrise Auth Token</td>
+								<td><input style="width:100%;" placeholder="Highrise Token" type="text" name="highrise_token" value="'. esc_attr( get_option('highrise_token') ).'" /></td>
+							</tr>
+						</table>
+						<h3>Zoho</h3>
+						<table width="50%">
+							<tr>
+								<td>Zoho Auth Token</td>
+								<td><input style="width:100%;" placeholder="Zoho Token" type="text" name="zoho_token" value="'. esc_attr( get_option('zoho_token') ).'" /></td>
+							</tr>
+					</table>
+					<h3>Email</h3>
+						<table width="50%">
+							<tr>
+								<td>Recipient</td>
+								<td><input style="width:100%;" placeholder="Email Recipient" type="text" name="zorise_email_recipient" value="'. esc_attr( get_option('zorise_email_recipient') ).'" /></td>
+							</tr>
+							<tr>
+								<td>Subject</td>
+								<td><input style="width:100%;" placeholder="Subject" type="text" name="zorise_email_subject" value="'. esc_attr( get_option('zorise_email_subject') ).'" /></td>
+							</tr>
+							<tr>
+								<td>From</td>
+								<td><input style="width:100%;" placeholder="From" type="text" name="zorise_email_from" value="'. esc_attr( get_option('zorise_email_from') ).'" /></td>
+							</tr>
+							<tr>
+								<td>Redirection</td>
+								<td><input style="width:100%;" placeholder="Redirection" type="text" name="zorise_redirect" value="'. esc_attr( get_option('zorise_redirect') ).'" /></td>
+							</tr>
+					</table>
+					';
+				?>
+				
+				<?php submit_button(); ?>
+			</form>
+		<?php
 	} 
+	function zorise_save_settings_post() {
+		register_setting( 'zorise-option-group', 'highrise_email' );
+		register_setting( 'zorise-option-group', 'highrise_token' );
+		register_setting( 'zorise-option-group', 'zoho_token' );
+		register_setting( 'zorise-option-group', 'zorise_email_recipient' );
+		register_setting( 'zorise-option-group', 'zorise_email_subject' );
+		register_setting( 'zorise-option-group', 'zorise_email_from' );
+		register_setting( 'zorise-option-group', 'zorise_redirect' );
+	}
 	
 	public function zorise_frontend_form( $atts ){
 		

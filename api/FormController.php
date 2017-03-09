@@ -1,11 +1,16 @@
 <?php
-
+	
+	/**
+	 * Require Base WP functions
+	 */
+	 require_once($_SERVER['DOCUMENT_ROOT'].'/wordpress/wp-config.php');
+	 
 	/**
 	 * HIGHRISE API
 	 */
 	require_once('HighriseAPI.class.php');
 	
-	/**
+	/** 
 	 * ZOHO API
 	 */
 	require_once 'Zoho/CRM/Common/HttpClientInterface.php';
@@ -29,11 +34,11 @@
 		
 		public function __construct(){		
 			$highrise = new HighriseAPI();
-			$highrise->setAccount('patientsupport@newhopeunlimited.com');
-			$highrise->setToken('765d2f72b62057f5e370a18807dbe4ec');	
+			$highrise->setAccount(get_option('highrise_email'));
+			$highrise->setToken(get_option('highrise_token'));	
 			
 			$lead = new Lead();
-			$zoho = new ZohoClient('884a0f309fe383254e9fa937cddb3931');			
+			$zoho = new ZohoClient(get_option('zoho_token'));			
 			
 			if($_POST){
 				$this->post = $_POST;
@@ -128,17 +133,72 @@
 
 			// Insert the new record
 			$response = $zoho->insertRecords($validXML, ['wfTrigger' => 'true']); 
-		 }
-		 
-		 public function redirect(){
-			header("Location: http://jcruz.primeview.com/wordpress/zorise-plugin/");			 
-		 }
-		 
+		}
+		public function sendEmail(){
+			extract($this->post);
+			
+			$to = get_option('zorise_email_recipient');
+			$subject = get_option('zorise_email_subject');
+			$email_body = '
+				<table border="1" cellpadding="2">
+					<tr>
+						<td>Name: </td>
+						<td>'.$fname.' '.$lname.'</td>
+					</tr>
+					<tr>
+						<td>Email: </td>
+						<td>'.$email.'</td>
+					</tr>
+					<tr>
+						<td>Phone: </td>
+						<td>'.$phone.'</td>
+					</tr>	
+					<tr>
+						<td>Company: </td>
+						<td>'.$company.'</td>
+					</tr>
+					<tr>	
+						<td>Diagnosis: </td>
+						<td>'.$diagnosis.'</td>
+					</tr>
+					<tr>	
+						<td colspan="2">Message: '.$message.'</td>
+					</tr>
+				</table>			
+			';
+					
+			$headers = 'From: '.$fname.' '.$lname.' <'.get_option('zorise_email_from').'>' . "\r\n" .
+				'MIME-Version: 1.0' . "\r\n" .
+				'Content-Type: text/html;charset=UTF-8' . "\r\n" .
+				'Reply-To: '.$email.'' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+				
+			$result = mail($to, $subject, $email_body, $headers);	
+			
+			if(!$result){
+				die('Can not send Mail.');
+			}
+		}
+		
+		public function redirect(){
+			header("Location: ".get_option('zorise_redirect')."");			 
+		}
+		
+		public function debug(){
+			//echo get_option('title');
+		}	 
+		
+		
 	} 
+
+	
 	$FormController = new FormController();
 	
 	$FormController->insertPerson();
 	$FormController->insertNote();
 	$FormController->insertLeadToZoho();
+	$FormController->sendEmail();
 	$FormController->redirect();
+	//$FormController->debug();
+	
 ?>

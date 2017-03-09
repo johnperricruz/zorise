@@ -1,0 +1,5 @@
+[09-Mar-2017 21:04:25 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home/jcruzpv/public_html/wordpress/wp-content/plugins/zorise/api/FormController.php on line 138
+[09-Mar-2017 21:05:58 UTC] PHP Fatal error:  Call to undefined function get_option() in /home/jcruzpv/public_html/wordpress/wp-content/plugins/zorise/api/FormController.php on line 138
+[09-Mar-2017 21:34:59 UTC] PHP Fatal error:  Call to undefined function get_option() in /home/jcruzpv/public_html/wordpress/wp-content/plugins/zorise/api/FormController.php on line 144
+[09-Mar-2017 21:47:21 UTC] PHP Fatal error:  Call to undefined function plugin_dir_path() in /home/jcruzpv/public_html/wordpress/wp-content/plugins/zorise/api/FormController.php on line 139
+[09-Mar-2017 21:55:59 UTC] PHP Parse error:  syntax error, unexpected ';' in /home/jcruzpv/public_html/wordpress/wp-content/plugins/zorise/api/FormController.php on line 144
