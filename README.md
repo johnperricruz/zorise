@@ -5,7 +5,7 @@
 ##Primeview Zoho - Highrise Integration for Wordpress
 
 v1.10
-- Backend settings for Zoho Configuration
+- Features : Added CFDB Integration support
 
 Initial Release : 
 - Backend settings for Zoho Configuration
