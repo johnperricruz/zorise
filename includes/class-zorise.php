@@ -226,26 +226,27 @@ class Zorise {
 			'Zoho-Highrise',           				 // Navbar Title
 			'manage_options',      					 // Permission 
 			'zorise',      					 // Page ID
-			array(&$this, 'zorise_leads_page'),           			 	  	 // Function call
+			//array(&$this, 'zorise_leads_page'),           			 	  	 // Function call
+			array(&$this, 'zorise_settings_page'),           			 	  	 // Function call
 			'dashicons-star-filled',   					 // Favicon
 			2                				 	// Order
 		);	
-		add_submenu_page( 
-			'zorise',      			 		 // Parent Page ID
-			'Leads',     		 		 // Page Title
-			'Leads', 						 // Navbar Title
-			'manage_options', 						 // Permission 	
-			'zorise', 							 // Submenu Page ID
-			array(&$this, 'zorise_leads_page')	 		 // Function  call	 
-		); 
-		add_submenu_page( 
-			'zorise',      			 		 // Parent Page ID
-			'Settings',     		 				 // Page Title
-			'Settings', 						 // Navbar Title
-			'manage_options', 						 // Permission 	
-			'zorise-settings', 							 // Submenu Page ID
-			array(&$this, 'zorise_settings_page')								 // Function  call	 
-		); 			
+		// add_submenu_page( 
+			// 'zorise',      			 		 // Parent Page ID
+			// 'Leads',     		 		 // Page Title
+			// 'Leads', 						 // Navbar Title
+			// 'manage_options', 						 // Permission 	
+			// 'zorise', 							 // Submenu Page ID
+			// array(&$this, 'zorise_leads_page')	 		 // Function  call	 
+		// ); 
+		// add_submenu_page( 
+			// 'zorise',      			 		 // Parent Page ID
+			// 'Settings',     		 				 // Page Title
+			// 'Settings', 						 // Navbar Title
+			// 'manage_options', 						 // Permission 	
+			// 'zorise-settings', 							 // Submenu Page ID
+			// array(&$this, 'zorise_settings_page')								 // Function  call	 
+		// ); 			
 	}
 	public function zorise_leads_page(){
 		echo 'Coming Soon...';

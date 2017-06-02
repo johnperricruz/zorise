@@ -4,6 +4,10 @@
 
 ##Primeview Zoho - Highrise Integration for Wordpress
 
+v1.10
+- Backend settings for Zoho Configuration
+
+Initial Release : 
 - Backend settings for Zoho Configuration
 - Settings for Highrise Configuration
 - Email Settings

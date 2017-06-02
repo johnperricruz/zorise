@@ -3,13 +3,13 @@
 	/**
 	 * Require Base WP functions
 	 */
-	 require_once($_SERVER['DOCUMENT_ROOT'].'/wordpress/wp-config.php');
+	 require_once($_SERVER['DOCUMENT_ROOT'].'/wp-config.php');
 	 
 	/**
 	 * HIGHRISE API
 	 */
 	require_once('HighriseAPI.class.php');
-	
+
 	/** 
 	 * ZOHO API
 	 */
@@ -31,6 +31,7 @@
 		protected $highrise;
 		protected $zoho; 
 		protected $lead; 
+		protected $cfdb;
 		
 		public function __construct(){		
 			$highrise = new HighriseAPI();
@@ -39,7 +40,7 @@
 			
 			$lead = new Lead();
 			$zoho = new ZohoClient(get_option('zoho_token'));			
-			
+
 			if($_POST){
 				$this->post = $_POST;
 				$this->highrise = $highrise;
@@ -119,9 +120,11 @@
 			$request = [
 				'first_name' => $fname,
 				'last_name' => $lname,
+				'lead_diagnosis' => $diagnosis,
 				'email' => $email,
 				'company' => $company,
 				'phone' => $phone,
+				'message' => $message
 			];
 
 			$insert = $lead->serializeXml($request); // Mapping the request for create xmlstr
@@ -136,6 +139,7 @@
 		}
 		public function sendEmail(){
 			extract($this->post);
+			
 			
 			$to = get_option('zorise_email_recipient');
 			$subject = get_option('zorise_email_subject');
@@ -180,6 +184,27 @@
 			}
 		}
 		
+		public function insertToCFDB(){
+			extract($this->post);
+			$data = (object) array(
+				'title' => 'zoho-form',
+				'posted_data' => array(
+					'fname' => $fname,
+					'lname' => $lname,
+					'email' => $email,
+					'phone' => $phone,
+					'company' => $company,
+					'diagnosis' => $diagnosis,
+					'message' => $message
+				),
+				'uploaded_files' => null
+			);	
+			if (class_exists('CF7DBPlugin')) {
+				do_action_ref_array( 'cfdb_submit', array( &$data ) );
+			}
+			
+		}
+		
 		public function redirect(){
 			header("Location: ".get_option('zorise_redirect')."");			 
 		}
@@ -188,17 +213,43 @@
 			//echo get_option('title');
 		}	 
 		
-		
+
 	} 
 
-	
+	/**
+	 * Instantiate
+	 */
 	$FormController = new FormController();
 	
-	$FormController->insertPerson();
-	$FormController->insertNote();
+	/**
+	 * Insert Leads to Highrise CRM
+	 */
+	//$FormController->insertPerson();
+	//$FormController->insertNote();
+	
+	/**
+	 * Insert Leads to ZOHO CRM
+	 */
 	$FormController->insertLeadToZoho();
-	$FormController->sendEmail();
+	
+	/**
+	 * Send Email
+	 */
+	$FormController->sendEmail(); 
+	
+	/**
+	 * Save to CFDB
+	 */
+	$FormController->insertToCFDB();
+	 
+	/**
+	 * Redirect
+	 */
 	$FormController->redirect();
+	
+	/**
+	 *Debug
+	 */
 	//$FormController->debug();
 	
 ?>
